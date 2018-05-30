@@ -10,8 +10,10 @@ include_once("./load_settings.php");
 include_once(DIR_MODULES . "control_modules/control_modules.class.php");
 $ctl = new control_modules();
 include_once(DIR_MODULES . 'syswidget/syswidget.class.php');
+
 $syswidget_module = new syswidget();
 $syswidget_module->getConfig();
+
  
 echo date("H:i:s") . " running " . basename(__FILE__) . PHP_EOL;
 $latest_check=0;
