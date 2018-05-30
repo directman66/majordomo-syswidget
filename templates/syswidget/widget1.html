@@ -1,0 +1,112 @@
+
+
+<style type="text/css">
+progress {
+    -webkit-appearance: none;
+    height: 14px;
+    width: 120px;
+}
+progress[value]::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5) inset;
+}
+    s_green progress[value]::-webkit-progress-value {
+    background-color: green;
+    border-radius: 3px;
+}
+    s_orange progress[value]::-webkit-progress-value {
+    background-color: orange;
+    border-radius: 3px;
+}
+    s_red progress[value]::-webkit-progress-value {
+    background-color: red;
+    border-radius: 3px;
+}
+</style>
+
+<div align="center" style="font-size:14px;"><span style="font-size:24px; color:orange;"><b>Алиса</b></span><br/>
+    <table border="1" cellspacing="2" cellpadding="2" rules="rows">
+
+        <tbody>
+            <tr>
+                <td>Последнее</br>сообщение</td>
+                <td align="right"><span style="font-size:12px; color:orange;">[#lastSayMessage#]</span></td>
+            </tr>
+
+            <tr>
+                <td>Аптайм</td>
+                <td align="right"><span style="font-size:12px; color:orange;">[#SysUptime#]</span></td>
+            </tr>
+
+            <tr>
+                <td>minmsglevel</td>
+                <td align="right"><span style="font-size:12px; color:orange;">[#minmgslevel#]</span></td>
+            </tr>
+
+
+
+            <tr>
+                <td>Уровень</br>громкости</td>
+                 <td align="left"><s_orange><progress value="[#volumeLevel#]" max="100"></progress></s_orange>&nbsp;<span style="font-size:12px; color:orange;">[#volumeLevel#]</span>&nbsp;%</td>
+            </tr>
+
+
+            <tr>
+                <td>Использование</br>CPU</td>
+            
+                <td align="left"><progress value="[#CPUusage#]" max="100"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUusage#]</span>&nbsp;%</td>
+            </tr>
+
+            <tr>
+                <td>Загрузка CPU</br>1 мин.</td>
+              
+                <td align="left"><progress value="[#CPUload1#]" max="1"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUload1#]</span>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>Загрузка CPU</br>5 мин.</td>
+             
+                <td align="left"><progress value="[#CPUload5#]" max="1"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUload5#]</span>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>Загрузка CPU</br>15 мин.</td>
+             
+                <td align="left"><progress value="[#CPUload15#]" max="1"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUload15#]</span>&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td>Использование</br>memory</td>
+             
+                <td align="left"><progress value="[#SysMem#]" max="100"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#SysMem#]</span>&nbsp;%</td>
+            </tr>
+<tr>
+                <td>Температура</br>CPU</td>
+             
+                <td align="left"><progress value="[#CPUtemp#]" max="80"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUtemp#]</span>&nbsp;°C</td>
+            </tr>
+
+<tr>
+                <td>Disk Free</br>[#DiskFreeMB#]</td>
+             
+                <td align="left"><progress value="[#DiskFree#]" max="100"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#DiskFree#]</span>&nbsp;%</td>
+            </tr>
+
+<tr>
+                <td>Количество процессов</br>[#proccountn#]</td>
+             
+                <td align="left"><progress value="[#proccount#]" max="100"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#proccount#]</span>&nbsp;%</td>
+            </tr>
+ 
+<tr>
+                <td>Количество TCP соединений</br>[#nsocketn#]</td>
+             
+                <td align="left"><progress value="[#nsocket#]" max="100"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#nsocket#]</span>&nbsp;%</td>
+            </tr>
+
+        </tbody>
+     
+    </table>
+
+</div>
