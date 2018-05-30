@@ -18,8 +18,8 @@ class syswidget extends module {
 */
 function syswidget() {
   $this->name="syswidget";
-  $this->title="Виджет Система";
-  $this->module_category="<#LANG_SECTION_APPLICATIONS#>";
+  $this->title="Виджет Системный";
+  $this->module_category="<#LANG_SECTION_SYSTEM#>";
   $this->checkInstalled();
 }
 /**
@@ -124,13 +124,13 @@ function run() {
 * Module backend
 *
 * @access public
-*/
+	*/
 function admin(&$out) {
 ///	echo "admin";
 //echo $this->view_mode;	
  $this->getConfig();
-//        if ((time() - gg('cycle_livegpstracksRun')) < $this->config['TLG_TIMEOUT']*2 ) {
-        if ((time() - gg('cycle_yandexweatherRun')) < 360*2 ) {
+
+        if ((time() - gg('cycle_syswidgetRun')) < 360*2 ) {
 			$out['CYCLERUN'] = 1;
 		} else {
 			$out['CYCLERUN'] = 0;
@@ -167,7 +167,7 @@ function admin(&$out) {
 // if ($this->tab=='' || $this->tab=='outdata') {
 //   $this->outdata_search($out);
 // }  
- if ($this->tab=='' || $this->tab=='indata' || $this->tab=='widgets') {
+ if ($this->tab=='' || $this->tab=='config' || $this->tab=='widgets') {
 $today = $this->today;		 
     $this->indata_search($out); 
  }
@@ -175,7 +175,7 @@ $today = $this->today;
  	
 	
  if ($this->view_mode=='get') {
-setGlobal('cycle_yandexweatherControl','start'); 
+setGlobal('cycle_syswidgetControl','start'); 
 		$this->updatefnc();
  }
 	
@@ -195,7 +195,37 @@ function usual(&$out) {
 }
  
  function indata_search(&$out) {	 
+
+
+
+   $out['lastSayMessage']=gg('lastSayMessage');
+   $out['minmgslevel']=gg('ThisComputer.minMsgLevel');
+   $out['SysUptime']=gg('syswidget.SysUptime');
+   $out['CPUusage']=gg('syswidget.CPUusage');
+   $out['CPUload1']=gg('syswidget.CPUload1');
+   $out['CPUload5']=gg('syswidget.CPUload5');
+   $out['CPUload15']=gg('syswidget.CPUload15');
+   $out['SysMem']=gg('syswidget.SysMem');
+   $out['CPUtemp']=gg('syswidget.CPUtemp');
+   $out['DiskFree']=gg('syswidget.DiskFree');
+//   $out['DiskFreeMB']=round(gg('syswidget.DiskFreeMB')/1024/1024);
+   $out['DiskFreeMB']=dataSize(gg('syswidget.DiskFreeMB'));
+   $out['proccountn']=gg('syswidget.proccountn');
+   $out['proccount']=gg('syswidget.proccount');
+   $out['nsocketn']=gg('syswidget.nsocketn');
+   $out['nsocket']=gg('syswidget.nsocket');
+   $out['volumeLevel']=gg('ThisComputer.volumeLevel');
+
+
+
+
+
+
+
  }
+
+
+
  function processCycle() {
    $this->getConfig();
    $every=$this->config['EVERY'];
@@ -228,15 +258,24 @@ $this->updatefnc();
 *
 * @access public
 */
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
  function updatefnc() {
 
 
 //diskfree
 $disktotal = disk_total_space ('/');
 	$diskfree  = disk_free_space  ('/');
+ sg('syswidget.DiskFreeMB', $diskfree);
 	$diskuse   = round (100 - (($diskfree / $disktotal) * 100)) .'%';
 $df=substr($diskuse,0,-1);
-echo $df;
+//echo $df;
  sg('syswidget.DiskFree', $df);
 
 
@@ -274,7 +313,7 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
 		}
 	}
 
-echo $proc_count;
+//echo $proc_count;
 if ($proc_count>gg('syswidget.proccount_max')){sg('syswidget.proccount_max', $proc_count);}
 $pr=round($proc_count/gg('syswidget.proccount_max')*100);
 if (gg('syswidget.proccount')<>$pr){
@@ -309,7 +348,7 @@ if (function_exists('exec')) {
 		
 		unset ($results);
 		
-		echo count($unique);
+		//echo count($unique);
  $nsocket=count($unique);
 		
 	}
@@ -412,8 +451,23 @@ sg('syswidget.SysUptime', $sys_uptime);
 setGlobal('cycle_syswidgetAutoRestart','1');	 	 
 $classname='syswidget';
 addClass($classname); 
+
+
+
+	 $prop_id=addClassProperty($classname, 'CPUtemp', 7);
+if ($prop_id) {$property=SQLSelectOne("SELECT * FROM properties WHERE ID=".$prop_id);
+$property['DESCRIPTION']='CPU temperature'; //   <-----------
+SQLUpdate('properties',$property); }
+
+
+	 $prop_id=addClassProperty($classname, 'CPUusage', 7);
+if ($prop_id) {$property=SQLSelectOne("SELECT * FROM properties WHERE ID=".$prop_id);
+$property['DESCRIPTION']='CPU Usage'; //   <-----------
+SQLUpdate('properties',$property); }
+
+
 	 
-addClassObject('syswidget',$objmycity);	 	 
+addClassObject('syswidget','syswidget');	 	 
 	 
 	 
 	 
@@ -430,3 +484,22 @@ addClassObject('syswidget',$objmycity);
 *
 */
 
+
+
+function getSymbolByQuantity($bytes) {
+    $symbols = array('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB');
+    $exp = floor(log($bytes)/log(1024));
+     return sprintf('%.2f '.$symbol[$exp], ($bytes/pow(1024, floor($exp))));
+}
+
+function dataSize($Bytes)
+{
+$Type=array("", "k", "m", "g", "t");
+$counter=0;
+while($Bytes>=1024)
+{
+$Bytes/=1024;
+$counter++;
+}
+return("".round($Bytes)." ".$Type[$counter]."b");
+}
