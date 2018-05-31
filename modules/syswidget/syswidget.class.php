@@ -180,7 +180,7 @@ setGlobal('cycle_syswidgetControl','start');
 	$this->updatefnc();
 	$this->diskfree();
 	$this->getipadr();	 
-	 
+	$this->hddtemp();	   	 
 
  }
 	
@@ -255,6 +255,7 @@ function usual(&$out) {
    
    if ($has) {  
 	$this->updatefnc();
+	$this->hddtemp();	   	   
 	$this->config['LATEST_UPDATE']=time();
 	$this->saveConfig();
    } 
@@ -267,7 +268,9 @@ function usual(&$out) {
    
    if ($has) { 
 	$this->diskfree();
-	$this->getipadr();	 
+	$this->getipadr();
+
+
 	
 	$this->config['LATEST_UPDATEHOUR']=time();
 	$this->saveConfig();
@@ -503,7 +506,7 @@ $data = json_decode(file_get_contents($url2), true);
 
 sg('syswidget.extip', $ip);
 sg('syswidget.localip', $res);	
-sg('syswidget.provider', $res);		
+sg('syswidget.provider', $name_rus);		
 }
 
 ////////////////////////////////////////
