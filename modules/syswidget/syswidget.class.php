@@ -397,9 +397,13 @@ sg('syswidget.proccountn', $proc_count);
  function soctemp() {	 
 //////// mb temp
 	 
-	 
+$data = shell_exec('uname -r');
+sg('syswidget.kernell',trim($data));
+
+$data = shell_exec('cat /proc/cpuinfo |grep Hardware');
+sg('syswidget.chip',trim($data));	 
 //raspberrypi
-if (gg('mdsensors.chip')=='Hardware	: BCM2835')
+if (gg('syswidget.chip')=='Hardware	: BCM2835')
 { 
  
 $data = shell_exec('vcgencmd measure_temp');
@@ -425,10 +429,10 @@ sg('syswidget.systemp',trim($data));
 $data = shell_exec('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq');
 sg('syswidget.freqcur',trim($data));
 }
-
+ }
 
 //for all linux system
-	 
+ function sensors() {		 
 exec("sensors",$asensors);
 for($i=0;$i<count($asensors);$i++) {
    ereg("[^:]*\:[ ]*([0-9+-.]*)",$asensors[$i],$arr);
