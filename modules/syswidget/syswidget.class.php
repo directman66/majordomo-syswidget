@@ -428,13 +428,6 @@ sg('syswidget.SysUptime', $sys_uptime);
 //raspberrypi
 if (gg('mdsensors.chip')=='Hardware	: BCM2835')
 { 
-
-
-//$temp=exec("\/usr\/sbin\/hddtemp \/dev\/sda1");      
-//ereg("[^:]*\:[ ]*[^:]*\:[ ]*([0-9+-.]*)",$temp,$arr);
-//$temp = trim($arr[1]);
-//$temp = str_replace('+','',$temp);
-//sg('mdsensors.hddtemp',$temp);
  
 $data = shell_exec('vcgencmd measure_temp');
 sg('syswidget.systemp',str_replace('\'C','', substr($data,5)));
@@ -445,9 +438,8 @@ sg('syswidget.kernellvcc',substr($data[1],0,-1));
  
 $data = shell_exec('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq');
 sg('syswidget.freqcur',trim($data));
-
-
 }
+	 
 ///orangepi
 if (gg('mdsensors.chip')=='Hardware	: sun8i')
 {
