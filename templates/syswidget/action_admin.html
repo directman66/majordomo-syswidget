@@ -23,6 +23,6 @@
 <li [#if TAB=="widgets" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=widgets">Виджеты</a> </li>	
 <li [#if TAB=="help" #] class="active" [#endif#]><a href="?tab=help">Help</a> </li>
 </ul>
-[#if TAB="config" || TAB==""#] [#inc config.html#] [#endif#]
+<!--[#if TAB="config" || TAB==""#] [#inc config.html#] [#endif#] -->
 [#if TAB="widgets"#] [#inc widgets.html#] [#endif#]
 [#if TAB="help"#] [#inc help.html#] [#endif#]
