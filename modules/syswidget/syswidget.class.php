@@ -220,10 +220,20 @@ function usual(&$out) {
    $out['nsocketn']=gg('syswidget.nsocketn');
    $out['nsocket']=gg('syswidget.nsocket');
    $out['volumeLevel']=gg('ThisComputer.volumeLevel');
+
    $out['extip']=gg('syswidget.extip');
    $out['localip']=gg('syswidget.localip');	
    $out['provider']=gg('syswidget.provider');		
 	 
+   $out['hdd1tempc']=gg('syswidget.hdd1tempc'); 
+   $out['hdd1temp']=gg('syswidget.hdd1temp');  
+   $out['hdd2tempc']=gg('syswidget.hdd2tempc'); ;
+   $out['hdd2temp']=gg('syswidget.hdd2temp');  ;	 
+	 
+   
+	 
+
+
 	 
 	 
 
@@ -428,10 +438,34 @@ $df=substr($diskuse,0,-1);
 	
 	
 function hddtemp() {
+$hddtemp=exec("sudo hddtemp /dev/sda1 ");      
+
+$arr = explode(':', $hddtemp);
+$hdd1= substr($arr[2],0,-1);
+
+if ($hdd1>gg('hdd1temp_max')){sg('hdd1temp_max', $hdd1);}
+//$pr=round($hdd1/gg('hdd1temp_max')*100);
+$pr=round($hdd1/65*100);
+if (gg('hdd1temp')<>$pr){
+sg('syswidget.hdd1tempc', $hdd1); 
+sg('syswidget.hdd1temp', $pr);  
+}	
+
+	////hdd2
 	
+$hddtemp=exec("sudo hddtemp /dev/sdb1 ");      
 
- sg('syswidget.hddtemp', $hddtemp);
+$arr = explode(':', $hddtemp);
+$hdd2= substr($arr[2],0,-1);
 
+if ($hdd2>gg('hdd2temp_max')){sg('hdd2temp_max', $hdd2);}
+//$pr=round($hdd1/gg('hdd1temp_max')*100);
+$pr=round($hdd2/65*100);
+if (gg('hdd2temp')<>$pr){
+sg('syswidget.hdd2tempc', $hdd2); 
+sg('syswidget.hdd2temp', $pr);  
+}		
+	
 	
 	
 }	
