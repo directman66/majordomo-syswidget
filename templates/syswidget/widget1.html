@@ -44,6 +44,14 @@ progress[value]::-webkit-progress-bar {
                 <td align="right"><span style="font-size:12px; color:orange;">[#minmgslevel#]</span></td>
             </tr>
 
+ <tr>
+                <td>IP</td>
+                <td align="right"><span style="font-size:12px; color:orange;">[#extip#];[#localip#]</span></td>
+            </tr>
+
+                <td>Провайдер</td>
+                <td align="right"><span style="font-size:12px; color:orange;">[#provider#]</span></td>
+            </tr>
 
 
             <tr>
@@ -86,6 +94,19 @@ progress[value]::-webkit-progress-bar {
              
                 <td align="left"><progress value="[#CPUtemp#]" max="80"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#CPUtemp#]</span>&nbsp;°C</td>
             </tr>
+
+
+                <td>Температура</br>HDD1: [#hdd1tempc#] °C</td>
+             
+                <td align="left"><progress value="[#hdd1temp#]" max="80"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#hdd1temp#]</span>&nbsp;%</td>
+            </tr>
+
+                <td>Температура</br>HDD2: [#hdd2tempc#] °C</td>
+             
+                <td align="left"><progress value="[#hdd2temp#]" max="80"></progress>&nbsp;<span style="font-size:12px; color:orange;">[#hdd2temp#]</span>&nbsp;%</td>
+            </tr>
+
+
 
 <tr>
                 <td>Disk Free</br>[#DiskFreeMB#]</td>
