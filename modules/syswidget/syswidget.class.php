@@ -418,7 +418,7 @@ sg('syswidget.freqcur',trim($data));
 }
 	 
 ///orangepi
-if (gg('mdsensors.chip')=='Hardware	: sun8i')
+if (gg('syswidget.chip')=='Hardware	: sun8i')
 {
 $data = shell_exec(' cat /etc/armbianmonitor/datasources/soctemp');
 sg('syswidget.systemp',trim($data));
