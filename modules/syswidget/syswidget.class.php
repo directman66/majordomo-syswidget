@@ -169,7 +169,7 @@ function admin(&$out) {
 //   $this->outdata_search($out);
 // }  
  if ($this->tab=='' || $this->tab=='config' || $this->tab=='widgets') {
-$today = $this->today;		 
+	 
     $this->indata_search($out); 
  }
 	
@@ -184,6 +184,7 @@ setGlobal('cycle_syswidgetControl','start');
 	$this->soctemp();	   	   	   	 
         $this->procnum();	   	   	   	   	 
 	$this->uptime();	   	 
+	$this->sensors();	   	 	 
 
  }
 	
