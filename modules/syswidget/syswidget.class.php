@@ -137,6 +137,7 @@ function admin(&$out) {
 		}
 	
  $out['EVERY']=$this->config['EVERY'];
+ $out['EVERYHOUR']=$this->config['EVERYHOUR'];	
  
  if (!$out['UUID']) {
 	 $out['UUID'] = md5(microtime() . rand(0, 9999));
@@ -176,7 +177,11 @@ $today = $this->today;
 	
  if ($this->view_mode=='get') {
 setGlobal('cycle_syswidgetControl','start'); 
-		$this->updatefnc();
+	$this->updatefnc();
+	$this->diskfree();
+	$this->getipadr();	 
+	 
+
  }
 	
 	
@@ -217,11 +222,6 @@ function usual(&$out) {
    $out['volumeLevel']=gg('ThisComputer.volumeLevel');
 
 
-
-
-
-
-
  }
 
 
@@ -231,16 +231,30 @@ function usual(&$out) {
    $every=$this->config['EVERY'];
    $tdev = time()-$this->config['LATEST_UPDATE'];
    $has = $tdev>$every*60;
-   if ($tdev < 0) {
-		$has = true;
-   }
+   if ($tdev < 0) {$has = true;}
    
    if ($has) {  
-$this->updatefnc();   
-		 
+	$this->updatefnc();
 	$this->config['LATEST_UPDATE']=time();
 	$this->saveConfig();
    } 
+	 
+   $every=$this->config['EVERYHOUR'];
+   $tdev = time()-$this->config['LATEST_UPDATEHOUR'];	 
+	 
+   $has = $tdev>$every*60*60;
+   if ($tdev < 0) {$has = true;  }
+   
+   if ($has) { 
+	$this->diskfree();
+	$this->getipadr();	 
+	
+	$this->config['LATEST_UPDATEHOUR']=time();
+	$this->saveConfig();
+   } 
+	 
+	 
+	 
   }
 /**
 * InData edit/add
@@ -268,15 +282,6 @@ $this->updatefnc();
 /////////////////////////////////////////////////
  function updatefnc() {
 
-
-//diskfree
-$disktotal = disk_total_space ('/');
-	$diskfree  = disk_free_space  ('/');
- sg('syswidget.DiskFreeMB', $diskfree);
-	$diskuse   = round (100 - (($diskfree / $disktotal) * 100)) .'%';
-$df=substr($diskuse,0,-1);
-//echo $df;
- sg('syswidget.DiskFree', $df);
 
 
 //AverageCPU
@@ -396,8 +401,57 @@ sg('syswidget.SysUptime', $sys_uptime);
 }
 
 
+function diskfree() {
+	
+//diskfree
+$disktotal = disk_total_space ('/');
+	$diskfree  = disk_free_space  ('/');
+ sg('syswidget.DiskFreeMB', $diskfree);
+	$diskuse   = round (100 - (($diskfree / $disktotal) * 100)) .'%';
+$df=substr($diskuse,0,-1);
+//echo $df;
+ sg('syswidget.DiskFree', $df);
+
+	
+	
+}	
+	
+	
+function getipadr() {
+$res=exec('hostname -I');
+$ipv6_regex='/(\w{4})/is';
+$res = trim(preg_replace($ipv6_regex,'',$res));
+$ipv6_regex='/:(\w+)/is';
+$res = trim(preg_replace($ipv6_regex,'',$res));
+$res = trim(str_replace(':','',$res));
 
 
+//say ('Про интернет к которому я подключена.');
+//$url="http://api.2ip.com.ua/provider.json";
+  $url="http://api.2ip.ua/provider.json";
+
+//Работаем со строкой JSON
+$data = json_decode(file_get_contents($url), true);
+    $ip=$data["ip"]; // что искали
+    $name_ripe=$data["name_ripe"]; 
+    $name_rus=$data["name_rus"]; 
+    $site=$data["site"]; 
+echo $ip;
+//say ("Сайт провайдера ".$site,5);
+
+$url2="http://api.2ip.com.ua/geo.json?ip=".$ip;
+
+//Работаем со строкой JSON
+$data = json_decode(file_get_contents($url2), true);
+    $country_rus=$data["country_rus"]; // что искали
+    $region_rus=$data["region_rus"]; 
+    $city_rus=$data["city_rus"]; 
+
+
+sg('syswidget.extip', $ip);
+sg('syswidget.localip', $res);	
+sg('syswidget.provider', $res);		
+}
 
 ////////////////////////////////////////
 ////////////////////////////////////////
