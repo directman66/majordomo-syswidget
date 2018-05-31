@@ -181,6 +181,9 @@ setGlobal('cycle_syswidgetControl','start');
 	$this->diskfree();
 	$this->getipadr();	 
 	$this->hddtemp();	   	 
+	$this->soctemp();	   	   	   	 
+        $this->procnum();	   	   	   	   	 
+	$this->uptime();	   	 
 
  }
 	
@@ -256,6 +259,10 @@ function usual(&$out) {
    if ($has) {  
 	$this->updatefnc();
 	$this->hddtemp();	   	   
+	$this->soctemp();	   	   	   
+	$this->procnum();	   	   	   	   
+
+	   
 	$this->config['LATEST_UPDATE']=time();
 	$this->saveConfig();
    } 
@@ -269,6 +276,7 @@ function usual(&$out) {
    if ($has) { 
 	$this->diskfree();
 	$this->getipadr();
+	$this->uptime();	   
 
 
 	
@@ -327,67 +335,6 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
  sg('syswidget.CPUload15', $cpu_load15);
 //}
 
-
-
-///number of proccess
-	$proc_count = 0;
-	$dh = opendir('/proc');
-	
-	while ($dir = readdir($dh)) {
-		if (is_dir('/proc/' . $dir)) {
-			if (preg_match('/^[0-9]+$/', $dir)) {
-				$proc_count ++;
-			}
-		}
-	}
-
-//echo $proc_count;
-if ($proc_count>gg('syswidget.proccount_max')){sg('syswidget.proccount_max', $proc_count);}
-$pr=round($proc_count/gg('syswidget.proccount_max')*100);
-if (gg('syswidget.proccount')<>$pr){
- sg('syswidget.proccount', $pr);
-sg('syswidget.proccountn', $proc_count); 
-}
-
-
-
-///numer of socket
-
-if (function_exists('exec')) {
-		
-		$www_total_count = 0;
-		@exec ('netstat -an | egrep \':80|:443\' | awk \'{print $5}\' | grep -v \':::\*\' |  grep -v \'0.0.0.0\'', $results);
-		
-		foreach ($results as $result) {
-			$array = explode(':', $result);
-			$www_total_count ++;
-			
-			if (preg_match('/^::/', $result)) {
-				$ipaddr = $array[3];
-			} else {
-				$ipaddr = $array[0];
-			}
-			
-			if (!in_array($ipaddr, $unique)) {
-				$unique[] = $ipaddr;
-				$www_unique_count ++;
-			}
-		}
-		
-		unset ($results);
-		
-		//echo count($unique);
- $nsocket=count($unique);
-		
-	}
-if ($nsocket>gg('syswidget.nsocket_max')){sg('syswidget.nsocket_max', $nsocket);}
-$pr=round($nsocket/gg('syswidget.nsocket_max')*100);
-if (gg('syswidget.nsocket')<>$pr){
- sg('syswidget.nsocket_max', $pr);}
-if (gg('syswidget.nsocket')<>$pr){
- sg('syswidget.nsocketn', $nsocket); 
-sg('syswidget.nsocket', $pr);  }
-
 //sysinfo
 
 //CPU temp
@@ -412,8 +359,8 @@ if(gg('syswidget.SysMem') != $sys_memory) {
 
 
 
-
-
+ }
+function uptime() {	 
 //System uptime
 $sys_uptime = shell_exec('uptime');
 $sys_uptime = explode(' up ', $sys_uptime);
@@ -421,7 +368,33 @@ $sys_uptime = explode(',', $sys_uptime[1]);
 $sys_uptime = $sys_uptime[0] . ', ' . $sys_uptime[1];
 sg('syswidget.SysUptime', $sys_uptime);
 
-	 
+ }
+	
+function procnum() {	 
+	
+///number of proccess
+	$proc_count = 0;
+	$dh = opendir('/proc');
+	
+	while ($dir = readdir($dh)) {
+		if (is_dir('/proc/' . $dir)) {
+			if (preg_match('/^[0-9]+$/', $dir)) {
+				$proc_count ++;
+			}
+		}
+	}
+
+//echo $proc_count;
+if ($proc_count>gg('syswidget.proccount_max')){sg('syswidget.proccount_max', $proc_count);}
+$pr=round($proc_count/gg('syswidget.proccount_max')*100);
+if (gg('syswidget.proccount')<>$pr){
+ sg('syswidget.proccount', $pr);
+sg('syswidget.proccountn', $proc_count); 
+}
+}	
+	
+	
+ function soctemp() {	 
 //////// mb temp
 	 
 	 
@@ -492,9 +465,6 @@ $disktotal = disk_total_space ('/');
 $df=substr($diskuse,0,-1);
 //echo $df;
  sg('syswidget.DiskFree', $df);
-
-	
-	
 }	
 	
 	
@@ -565,6 +535,46 @@ $data = json_decode(file_get_contents($url2), true);
 sg('syswidget.extip', $ip);
 sg('syswidget.localip', $res);	
 sg('syswidget.provider', $name_rus);		
+	
+	
+///numer of socket
+
+if (function_exists('exec')) {
+		
+		$www_total_count = 0;
+		@exec ('netstat -an | egrep \':80|:443\' | awk \'{print $5}\' | grep -v \':::\*\' |  grep -v \'0.0.0.0\'', $results);
+		
+		foreach ($results as $result) {
+			$array = explode(':', $result);
+			$www_total_count ++;
+			
+			if (preg_match('/^::/', $result)) {
+				$ipaddr = $array[3];
+			} else {
+				$ipaddr = $array[0];
+			}
+			
+			if (!in_array($ipaddr, $unique)) {
+				$unique[] = $ipaddr;
+				$www_unique_count ++;
+			}
+		}
+		
+		unset ($results);
+		
+		//echo count($unique);
+ $nsocket=count($unique);
+		
+	}
+if ($nsocket>gg('syswidget.nsocket_max')){sg('syswidget.nsocket_max', $nsocket);}
+$pr=round($nsocket/gg('syswidget.nsocket_max')*100);
+if (gg('syswidget.nsocket')<>$pr){
+ sg('syswidget.nsocket_max', $pr);}
+if (gg('syswidget.nsocket')<>$pr){
+ sg('syswidget.nsocketn', $nsocket); 
+sg('syswidget.nsocket', $pr);  }
+	
+	
 }
 
 ////////////////////////////////////////
