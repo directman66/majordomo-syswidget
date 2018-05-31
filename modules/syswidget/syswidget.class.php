@@ -227,8 +227,8 @@ function usual(&$out) {
 	 
    $out['hdd1tempc']=gg('syswidget.hdd1tempc'); 
    $out['hdd1temp']=gg('syswidget.hdd1temp');  
-   $out['hdd2tempc']=gg('syswidget.hdd2tempc'); ;
-   $out['hdd2temp']=gg('syswidget.hdd2temp');  ;	 
+   $out['hdd2tempc']=gg('syswidget.hdd2tempc'); 
+   $out['hdd2temp']=gg('syswidget.hdd2temp');  	 
 	 
    
 	 
