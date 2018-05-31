@@ -421,6 +421,72 @@ $sys_uptime = explode(',', $sys_uptime[1]);
 $sys_uptime = $sys_uptime[0] . ', ' . $sys_uptime[1];
 sg('syswidget.SysUptime', $sys_uptime);
 
+	 
+//////// mb temp
+	 
+	 
+//raspberrypi
+if (gg('mdsensors.chip')=='Hardware	: BCM2835')
+{ 
+
+
+//$temp=exec("\/usr\/sbin\/hddtemp \/dev\/sda1");      
+//ereg("[^:]*\:[ ]*[^:]*\:[ ]*([0-9+-.]*)",$temp,$arr);
+//$temp = trim($arr[1]);
+//$temp = str_replace('+','',$temp);
+//sg('mdsensors.hddtemp',$temp);
+ 
+$data = shell_exec('vcgencmd measure_temp');
+sg('syswidget.systemp',str_replace('\'C','', substr($data,5)));
+
+$data = shell_exec('vcgencmd measure_volts core');
+$data =explode('=',trim($data));
+sg('syswidget.kernellvcc',substr($data[1],0,-1));
+ 
+$data = shell_exec('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq');
+sg('syswidget.freqcur',trim($data));
+
+
+}
+///orangepi
+if (gg('mdsensors.chip')=='Hardware	: sun8i')
+{
+$data = shell_exec(' cat /etc/armbianmonitor/datasources/soctemp');
+sg('syswidget.systemp',trim($data));
+
+ $data = shell_exec('  cat /sys/devices/virtual/thermal/thermal_zone0/temp');
+ sg('syswidget.system_temp1',$temp);
+ 
+$data = shell_exec('cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq');
+sg('syswidget.freqcur',trim($data));
+}
+
+
+//for all linux system
+	 
+exec("sensors",$asensors);
+for($i=0;$i<count($asensors);$i++) {
+   ereg("[^:]*\:[ ]*([0-9+-.]*)",$asensors[$i],$arr);
+   $temp = trim($arr[1]);
+   $temp = str_replace('+','',$temp);
+   switch (substr($asensors[$i],0,5)) {
+    case 'fan1:':
+        sg('syswidget.system_fan1',$temp);
+        break;
+    case 'temp1':
+        sg('syswidget.system_temp1',$temp);
+        break;
+    case 'temp3':
+        sg('syswidget.system_temp3',$temp);
+        break;
+    case 'M/B T':
+        sg('syswidget.system_mbtemp',$temp);
+        break;
+    }
+}	 
+	 
+	 
+	 
 }
 
 
