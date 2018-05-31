@@ -18,7 +18,7 @@ class syswidget extends module {
 */
 function syswidget() {
   $this->name="syswidget";
-  $this->title="Виджет Системный";
+  $this->title="Виджет Состояние системы";
   $this->module_category="<#LANG_SECTION_SYSTEM#>";
   $this->checkInstalled();
 }
