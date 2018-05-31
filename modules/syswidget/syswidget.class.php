@@ -436,7 +436,7 @@ sg('syswidget.freqcur',trim($data));
  function sensors() {		 
 exec("sensors",$asensors);
 for($i=0;$i<count($asensors);$i++) {
-   ereg("[^:]*\:[ ]*([0-9+-.]*)",$asensors[$i],$arr);
+   preg_match("[^:]*\:[ ]*([0-9+-.]*)",$asensors[$i],$arr);
    $temp = trim($arr[1]);
    $temp = str_replace('+','',$temp);
    switch (substr($asensors[$i],0,5)) {
