@@ -220,6 +220,16 @@ function usual(&$out) {
    $out['nsocketn']=gg('syswidget.nsocketn');
    $out['nsocket']=gg('syswidget.nsocket');
    $out['volumeLevel']=gg('ThisComputer.volumeLevel');
+   $out['extip']=gg('syswidget.extip');
+   $out['localip']=gg('syswidget.localip');	
+   $out['provider']=gg('syswidget.provider');		
+	 
+	 
+	 
+
+
+
+
 
 
  }
@@ -417,6 +427,15 @@ $df=substr($diskuse,0,-1);
 }	
 	
 	
+function hddtemp() {
+	
+
+ sg('syswidget.hddtemp', $hddtemp);
+
+	
+	
+}	
+	
 function getipadr() {
 $res=exec('hostname -I');
 $ipv6_regex='/(\w{4})/is';
@@ -436,7 +455,7 @@ $data = json_decode(file_get_contents($url), true);
     $name_ripe=$data["name_ripe"]; 
     $name_rus=$data["name_rus"]; 
     $site=$data["site"]; 
-echo $ip;
+//echo $ip;
 //say ("Сайт провайдера ".$site,5);
 
 $url2="http://api.2ip.com.ua/geo.json?ip=".$ip;
