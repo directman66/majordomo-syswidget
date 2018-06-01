@@ -184,10 +184,10 @@ setGlobal('cycle_syswidgetControl','start');
         $this->procnum();	   	   	   	   	 
 	$this->uptime();	   	 
 	$this->sensors();	   	 	 
-$this->cpuload() 	
-$this->cpuusage()	
-$this->memory() 	
-$this->cputemp()		   
+$this->cpuload(); 	
+$this->cpuusage();	
+$this->memory() ;	
+$this->cputemp();		   
 
 	 
 
@@ -268,10 +268,10 @@ function usual(&$out) {
 	$this->soctemp();	   	   	   
 	$this->procnum();	   	   	   	   
 	   
-$this->cpuload() 	
-$this->cpuusage()	
-$this->memory() 	
-$this->cputemp()		   
+$this->cpuload() ;	
+$this->cpuusage();	
+$this->memory() ;	
+$this->cputemp();		   
 
 	   
 	$this->config['LATEST_UPDATE']=time();
