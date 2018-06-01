@@ -322,9 +322,7 @@ $this->cputemp()
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
  function cpuload() {
-
 //AverageCPU
-
 //CPU 1 5 15
 $cpu_load = shell_exec('cat /proc/loadavg');
 $pos1 = strpos($cpu_load, ' ');
@@ -362,6 +360,7 @@ if(gg('syswidget.SysMem') != $sys_memory) {
  sg('syswidget.SysMem', $sys_memory);
 }
 
+}
  
 function cputemp() {	 	
 //CPU temp
