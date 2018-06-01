@@ -262,6 +262,11 @@ function usual(&$out) {
 	$this->hddtemp();	   	   
 	$this->soctemp();	   	   	   
 	$this->procnum();	   	   	   	   
+	   
+$this->cpuload() 	
+$this->cpuusage()	
+$this->memory() 	
+$this->cputemp()		   
 
 	   
 	$this->config['LATEST_UPDATE']=time();
@@ -310,11 +315,13 @@ function usual(&$out) {
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+//function cpuload() 	
+//function cpuusage()	
+//function memory() 	
+//function cputemp()	
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
- function updatefnc() {
-
-
+ function cpuload() {
 
 //AverageCPU
 
@@ -335,21 +342,18 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
 //if(gg('CPUload15') != $cpu_load15) {
  sg('syswidget.CPUload15', $cpu_load15);
 //}
-
+ }
 //sysinfo
 
-//CPU temp
-$cpu_temp = shell_exec('cat /sys/class/thermal/thermal_zone0/temp')/1000;
-$cpu_temp = round($cpu_temp, 1);
-//if(gg('CPUtemp') != $cpu_temp) {
- sg('syswidget.CPUtemp', $cpu_temp);
-//}
+function cpuusage() {
 //CPU usage
 $cpu_usage = exec("top -bn 1 | awk '{print $9}' | tail -n +8 | awk '{s+=$1} END {print s}'");
 $cpu_usage = round($cpu_usage/4, 1);
 //if(gg('CPUusage') != $cpu_usage) {
  sg('syswidget.CPUusage', $cpu_usage);
 //}
+}
+function memory() {	
 //Memory usage/total
 $mem_total = exec("cat /proc/meminfo | grep MemTotal | awk '{print $2}'");
 $mem_usage = $mem_total - exec("cat /proc/meminfo | grep MemFree | awk '{print $2}'");
@@ -358,10 +362,18 @@ if(gg('syswidget.SysMem') != $sys_memory) {
  sg('syswidget.SysMem', $sys_memory);
 }
 
+ 
+function cputemp() {	 	
+//CPU temp
+//$cpu_temp = shell_exec('cat /sys/class/thermal/thermal_zone0/temp')/1000;
+$cpu_temp = shell_exec('cat /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input')/1000;	 
+$cpu_temp = round($cpu_temp, 1);
+//if(gg('CPUtemp') != $cpu_temp) {
+ sg('syswidget.CPUtemp', $cpu_temp);
+//}
+}	
 
-
- }
-function uptime() {	 
+	function uptime() {	 
 //System uptime
 $sys_uptime = shell_exec('uptime');
 $sys_uptime = explode(' up ', $sys_uptime);
