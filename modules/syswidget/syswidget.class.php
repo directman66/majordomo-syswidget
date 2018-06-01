@@ -177,7 +177,6 @@ function admin(&$out) {
 	
  if ($this->view_mode=='get') {
 setGlobal('cycle_syswidgetControl','start'); 
-	$this->updatefnc();
 	$this->diskfree();
 	$this->getipadr();	 
 	$this->hddtemp();	   	 
@@ -185,6 +184,12 @@ setGlobal('cycle_syswidgetControl','start');
         $this->procnum();	   	   	   	   	 
 	$this->uptime();	   	 
 	$this->sensors();	   	 	 
+$this->cpuload() 	
+$this->cpuusage()	
+$this->memory() 	
+$this->cputemp()		   
+
+	 
 
  }
 	
@@ -258,7 +263,7 @@ function usual(&$out) {
    if ($tdev < 0) {$has = true;}
    
    if ($has) {  
-	$this->updatefnc();
+	
 	$this->hddtemp();	   	   
 	$this->soctemp();	   	   	   
 	$this->procnum();	   	   	   	   
