@@ -533,7 +533,8 @@ $res = trim(str_replace(':','',$res));
 
 //say ('Про интернет к которому я подключена.');
 //$url="http://api.2ip.com.ua/provider.json";
-  $url="http://api.2ip.ua/provider.json";
+//  $url="http://api.2ip.ua/provider.json";
+  $url="https://api.ipify.org?format=json";	
 
 //Работаем со строкой JSON
 $data = json_decode(file_get_contents($url), true);
@@ -655,7 +656,7 @@ addClass($classname);
 
 	 $prop_id=addClassProperty($classname, 'CPUtemp', 7);
 if ($prop_id) {$property=SQLSelectOne("SELECT * FROM properties WHERE ID=".$prop_id);
-$property['DESCRIPTION']='CPU temperature'; //   <-----------
+$property['DESCRTION']='CPU temperature'; //   <-----------
 SQLUpdate('properties',$property); }
 
 
