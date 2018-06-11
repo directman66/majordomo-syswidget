@@ -656,7 +656,7 @@ addClass($classname);
 
 	 $prop_id=addClassProperty($classname, 'CPUtemp', 7);
 if ($prop_id) {$property=SQLSelectOne("SELECT * FROM properties WHERE ID=".$prop_id);
-$property['DESCRTION']='CPU temperature'; //   <-----------
+$property['DESCRIPTION']='CPU temperature'; //   <-----------
 SQLUpdate('properties',$property); }
 
 
