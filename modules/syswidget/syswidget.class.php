@@ -393,12 +393,7 @@ $cpu_temp = round($cpu_temp, 1);
  sg('syswidget.CPUtemp', $cpu_temp);	
  }
 
-////////////	
-	
-	
-	
-//}
-}	
+
 
 	function uptime() {	 
 //System uptime
