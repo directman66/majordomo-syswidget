@@ -594,12 +594,12 @@ if (function_exists('exec')) {
 				$ipaddr = $array[0];
 			}
 			
-//if (sizeof($ipaddr)>0) {
-			//if (!in_array($ipaddr, $unique)) {
-//				$unique[] = $ipaddr;
-				//$www_unique_count ++;
-//			}
-//}
+if (sizeof($ipaddr)>0) {
+if (!in_array($ipaddr, $unique)) {
+$unique[] = $ipaddr;
+$www_unique_count ++;
+			}
+}
 		}
 		
 		unset ($results);
