@@ -369,11 +369,34 @@ if(gg('syswidget.SysMem') != $sys_memory) {
  
 function cputemp() {	 	
 //CPU temp
-//$cpu_temp = shell_exec('cat /sys/class/thermal/thermal_zone0/temp')/1000;
+
+///////////////
+//raspberrypi
+if (gg('syswidget.chip')=='Hardware	: BCM2835')
+{ 
+$data = shell_exec('vcgencmd measure_temp');
+$cpu_temp=str_replace('\'C','', substr($data,5)));
+	
+}
+	 
+///orangepi
+elseif (gg('syswidget.chip')=='Hardware	: sun8i')
+{
+$cpu_temp = shell_exec('cat /sys/class/thermal/thermal_zone0/temp')/1000;	
+}
+else 
+{
 $cpu_temp = shell_exec('cat /sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input')/1000;	 
 $cpu_temp = round($cpu_temp, 1);
+}
 //if(gg('CPUtemp') != $cpu_temp) {
- sg('syswidget.CPUtemp', $cpu_temp);
+ sg('syswidget.CPUtemp', $cpu_temp);	
+ }
+
+////////////	
+	
+	
+	
 //}
 }	
 
