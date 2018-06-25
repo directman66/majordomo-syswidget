@@ -563,13 +563,13 @@ $data = json_decode(file_get_contents($url), true);
 //echo $ip;
 //say ("Сайт провайдера ".$site,5);
 
-$url2="http://api.2ip.com.ua/geo.json?ip=".$ip;
+//$url2="http://api.2ip.com.ua/geo.json?ip=".$ip;
 
 //Работаем со строкой JSON
-$data = json_decode(file_get_contents($url2), true);
-    $country_rus=$data["country_rus"]; // что искали
-    $region_rus=$data["region_rus"]; 
-    $city_rus=$data["city_rus"]; 
+//$data = json_decode(file_get_contents($url2), true);
+//    $country_rus=$data["country_rus"]; // что искали
+///    $region_rus=$data["region_rus"]; 
+//    $city_rus=$data["city_rus"]; 
 
 
 sg('syswidget.extip', $ip);
@@ -594,7 +594,7 @@ if (function_exists('exec')) {
 				$ipaddr = $array[0];
 			}
 			
-			if (!in_array($ipaddr, $unique)) {
+			if (!in_array($ipaddr)) {
 				$unique[] = $ipaddr;
 				$www_unique_count ++;
 			}
