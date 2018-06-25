@@ -594,7 +594,7 @@ if (function_exists('exec')) {
 				$ipaddr = $array[0];
 			}
 			
-			if (!in_array($ipaddr)) {
+			if (!in_array($ipaddr, $unique)) {
 				$unique[] = $ipaddr;
 				$www_unique_count ++;
 			}
