@@ -375,7 +375,7 @@ function cputemp() {
 if (gg('syswidget.chip')=='Hardware	: BCM2835')
 { 
 $data = shell_exec('vcgencmd measure_temp');
-$cpu_temp=str_replace('\'C','', substr($data,5)));
+$cpu_temp=str_replace('\'C','', substr($data,5)  );
 	
 }
 	 
