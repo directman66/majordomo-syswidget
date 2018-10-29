@@ -190,6 +190,7 @@ $this->cpuload();
 $this->cpuusage();	
 $this->memory() ;	
 $this->cputemp();		   
+$this->smart();		   
 
 	 
 
@@ -246,6 +247,7 @@ function usual(&$out) {
    $out['location']=gg('syswidget.location');  	 
    $out['psaux']=nl2br(nl2br(gg('syswidget.psaux')));  	 
    $out['arp']=nl2br(nl2br(gg('syswidget.arp')));  	 
+   $out['smart']=nl2br(nl2br(gg('syswidget.smart')));  	 
 
 	 
 //global 
@@ -454,11 +456,29 @@ sg('syswidget.SysUptime', $sys_uptime);
 
 
 function lsusb() {	 
+if (substr(php_uname(),0,5)=='Linux')  {
 //System uptime
 $lsusb = shell_exec('lsusb');
 sg('syswidget.lsusb', $lsusb);
+}else
+{
+$smd='wmic path CIM_LogicalDevice where "Description like \'USB%\'" get /value';
+$lsusb = shell_exec($smd);
+sg('syswidget.lsusb', $lsusb);
+}
+}
 
- }
+function smart() {	 
+if (substr(php_uname(),0,5)=='Linux')  {
+//System uptime
+$lsusb = shell_exec('sudo smartctl  -a /dev/sda');
+sg('syswidget.smart', $lsusb);
+}else
+{
+$lsusb = shell_exec('wmic diskdrive get Partitions,DeviceId,Model,Size,Caption,Status /value');
+sg('syswidget.smart', $lsusb);
+}
+}
 
 function psaux() {	 
 //System uptime
