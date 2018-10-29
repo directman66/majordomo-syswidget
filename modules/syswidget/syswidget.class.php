@@ -242,10 +242,10 @@ function usual(&$out) {
    $out['hdd2temp']=gg('syswidget.hdd2temp');  	 
    $out['uname']=gg('syswidget.uname');  	 
    $out['os']=gg('syswidget.os');  	 
-   $out['lsusb']=gg('syswidget.lsusb');  	 
+   $out['lsusb']=nl2br(nl2br(gg('syswidget.lsusb')));  	 
    $out['location']=gg('syswidget.location');  	 
-   $out['psaux']=gg('syswidget.psaux');  	 
-   $out['arp']=gg('syswidget.arp');  	 
+   $out['psaux']=nl2br(nl2br(gg('syswidget.psaux')));  	 
+   $out['arp']=nl2br(nl2br(gg('syswidget.arp')));  	 
 
 	 
 //global 
