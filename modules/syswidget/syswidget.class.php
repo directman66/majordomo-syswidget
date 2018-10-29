@@ -244,6 +244,9 @@ function usual(&$out) {
    $out['os']=gg('syswidget.os');  	 
    $out['lsusb']=gg('syswidget.lsusb');  	 
    $out['location']=gg('syswidget.location');  	 
+   $out['psaux']=gg('syswidget.psaux');  	 
+   $out['arp']=gg('syswidget.arp');  	 
+
 	 
 //global 
 $type=$this->type;
@@ -289,6 +292,8 @@ $this->cputemp();
 	$this->uptime();	   
 	$this->getos();	   
 	$this->lsusb();	   
+	$this->psaux();	   
+	$this->arp();	   
 
 
 	
@@ -413,6 +418,22 @@ $lsusb = shell_exec('lsusb');
 sg('syswidget.lsusb', $lsusb);
 
  }
+
+function psaux() {	 
+//System uptime
+$lsusb = shell_exec('ps -aux');
+sg('syswidget.psaux', $lsusb);
+
+ }
+
+function arp() {	 
+//System uptime
+$lsusb = shell_exec('arp -a');
+sg('syswidget.arp', $lsusb);
+
+ }
+
+
 
 	
 function procnum() {	 
@@ -576,11 +597,14 @@ $res = trim(str_replace(':','',$res));
 //say ('Про интернет к которому я подключена.');
 //$url="http://api.2ip.com.ua/provider.json";
 //  $url="http://api.2ip.ua/provider.json";
-  $url="https://api.ipify.org?format=json";	
+//  $url="https://api.ipify.org?format=json";	
+  $url="http://ip-api.com/json?lang=ru";
 
 //Работаем со строкой JSON
 $data = json_decode(file_get_contents($url), true);
-    $ip=$data["ip"]; // что искали
+
+///print_r($data);
+    $ip=$data["query"]; // что искали
     $name_ripe=$data["name_ripe"]; 
     $name_rus=$data["isp"]; 
     $city=$data["city"]; 
