@@ -20,7 +20,7 @@ class syswidget extends module {
 */
 function syswidget() {
   $this->name="syswidget";
-  $this->title="Виджет Состояние системы";
+  $this->title="Р’РёРґР¶РµС‚ РЎРѕСЃС‚РѕСЏРЅРёРµ СЃРёСЃС‚РµРјС‹";
   $this->module_category="<#LANG_SECTION_SYSTEM#>";
   $this->checkInstalled();
 }
@@ -333,6 +333,8 @@ $this->cputemp();
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
  function cpuload() {
+
+if (substr(php_uname(),0,5)=='Linux')  {
 //AverageCPU
 //CPU 1 5 15
 $cpu_load = shell_exec('cat /proc/loadavg');
@@ -352,6 +354,11 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
  sg('syswidget.CPUload15', $cpu_load15);
 //}
  }
+else {
+$cpu_load1 = shell_exec('wmic cpu get LoadPercentage');
+ sg('syswidget.CPUload1', $cpu_load1);
+
+}
 //sysinfo
 
 function cpuusage() {
@@ -601,17 +608,17 @@ $res = trim(preg_replace($ipv6_regex,'',$res));
 $res = trim(str_replace(':','',$res));
 
 
-//say ('Про интернет к которому я подключена.');
+//say ('РџСЂРѕ РёРЅС‚РµСЂРЅРµС‚ Рє РєРѕС‚РѕСЂРѕРјСѓ СЏ РїРѕРґРєР»СЋС‡РµРЅР°.');
 //$url="http://api.2ip.com.ua/provider.json";
 //  $url="http://api.2ip.ua/provider.json";
 //  $url="https://api.ipify.org?format=json";	
   $url="http://ip-api.com/json?lang=ru";
 
-//Работаем со строкой JSON
+//Р Р°Р±РѕС‚Р°РµРј СЃРѕ СЃС‚СЂРѕРєРѕР№ JSON
 $data = json_decode(file_get_contents($url), true);
 
 ///print_r($data);
-    $ip=$data["query"]; // что искали
+    $ip=$data["query"]; // С‡С‚Рѕ РёСЃРєР°Р»Рё
     $name_ripe=$data["name_ripe"]; 
     $name_rus=$data["isp"]; 
     $city=$data["city"]; 
