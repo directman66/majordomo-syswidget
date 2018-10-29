@@ -28,8 +28,8 @@
 </ul>
 <!--[#if TAB="config" || TAB==""#] [#inc config.html#] [#endif#] -->
 [#if TAB=="widgets"||TAB=""#] [#inc widgets.html#] [#endif#]
-[#if TAB=="process"#]	[#module name="syswidget" type="3"#]  [#endif#]
-[#if TAB=="arp"#]	[#module name="syswidget" type="4"#]  [#endif#]
-[#if TAB=="smart"#]	[#module name="syswidget" type="5"#][#endif#]
+[#if TAB=="process"#] <table align="left">	[#module name="syswidget" type="3"#]  [#endif#] </table>
+[#if TAB=="arp"#] <table align="left">		[#module name="syswidget" type="4"#]  [#endif#] </table>
+[#if TAB=="smart"#]<table align="left">		[#module name="syswidget" type="5"#][#endif#]</table>
 [#if TAB=="help"#] [#inc help.html#] [#endif#]
 
