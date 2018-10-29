@@ -20,10 +20,16 @@
         <!--<li [#if TAB=="" || TAB=="indata" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=indata">Погода на сегодня</a> </li> 
 -->
 <!--<li [#if TAB=="" || TAB=="config" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=update_settings&id=<#ID#>&tab=config">Конфигурация</a> </li> -->
-<li [##if TAB=="" || TAB=="widgets" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=widgets">Виджеты</a> </li>	
+<li [#if TAB=="" || TAB=="widgets" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=widgets">Виджеты</a> </li>	
+<li [#if TAB=="process" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=process">Процессы</a> </li>	
+<li [#if TAB=="arp" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=arp">arp</a> </li>	
+<li [#if TAB=="smart" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=<#VIEW_MODE#>&id=<#ID#>&tab=smart">s.m.a.r.t.</a> </li>	
 <li [#if TAB=="help" #] class="active" [#endif#]><a href="?tab=help">Help</a> </li>
 </ul>
 <!--[#if TAB="config" || TAB==""#] [#inc config.html#] [#endif#] -->
-[#if TAB="widgets"||TAB=""#] [#inc widgets.html#] [#endif#]
-[#if TAB="help"#] [#inc help.html#] [#endif#]
+[#if TAB=="widgets"||TAB=""#] [#inc widgets.html#] [#endif#]
+[#if TAB=="process"#]	[#module name="syswidget" type="3"#]  [#endif#]
+[#if TAB=="arp"#]	[#module name="syswidget" type="4"#]  [#endif#]
+[#if TAB=="smart"#]	[#module name="syswidget" type="5"#][#endif#]
+[#if TAB=="help"#] [#inc help.html#] [#endif#]
 
