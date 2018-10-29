@@ -20,7 +20,7 @@ class syswidget extends module {
 */
 function syswidget() {
   $this->name="syswidget";
-  $this->title="Р’РёРґР¶РµС‚ РЎРѕСЃС‚РѕСЏРЅРёРµ СЃРёСЃС‚РµРјС‹";
+  $this->title="Виджет Состояние системы";
   $this->module_category="<#LANG_SECTION_SYSTEM#>";
   $this->checkInstalled();
 }
@@ -360,7 +360,7 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
 else {
 $link = shell_exec('wmic cpu get LoadPercentage');
 $cpu_load1=explode ("\r",$link)[1];
-echo $cpu_load1;
+//echo $cpu_load1;
 if ($cpu_load1!=0) sg('syswidget.CPUload1', $cpu_load1);
 if ($cpu_load1!=0) sg('syswidget.CPUusage', $cpu_load1);
 }
@@ -376,7 +376,7 @@ if (substr(php_uname(),0,5)=='Linux')  {
 $cpu_usage = exec("top -bn 1 | awk '{print $9}' | tail -n +8 | awk '{s+=$1} END {print s}'");
 $cpu_usage = round($cpu_usage/4, 1);
 //if(gg('CPUusage') != $cpu_usage) {
- sg('syswidget.CPUusage', $cpu_usage);
+ sg('syswidget.CPUusage', trim($cpu_usage));
 }
 }
 
@@ -391,10 +391,25 @@ if(gg('syswidget.SysMem') != $sys_memory) {
 }} 
 else 
 {
-$link = shell_exec('wmic OS get FreePhysicalMemory /Value');
-$cpu_load1=explode ("=",$link)[1];
-echo $cpu_load1;
-if ($cpu_load1!=0) sg('syswidget.SysMem', $cpu_load1);
+$free = shell_exec('wmic OS get FreePhysicalMemory /Value');
+$free1=trim(explode("=",$free)[1])*100;
+$vsego = shell_exec('wmic computersystem get TotalPhysicalMemory');
+$vsego1=trim(explode("\r",$vsego)[1]);
+
+$usage=$vsego1-$free1;
+//echo $vsego1;
+$totalfree=round($free1/$vsego1)*100;
+
+$totalm=round($usage/$vsego1)*100;
+
+
+//if ($cpu_load1!=0) 
+sg('syswidget.SysMem', $totalm);
+sg('syswidget.SysUsage', $usage);
+sg('syswidget.SysMemTotal', $vsego1);
+sg('syswidget.SysMemTotalP', $totalfree);
+sg('syswidget.SysMemFree', $free1);
+sg('syswidget.SysMemtxt', $usage.":".$vsego1);
 
 }
 }
@@ -627,17 +642,17 @@ $res = trim(preg_replace($ipv6_regex,'',$res));
 $res = trim(str_replace(':','',$res));
 
 
-//say ('РџСЂРѕ РёРЅС‚РµСЂРЅРµС‚ Рє РєРѕС‚РѕСЂРѕРјСѓ СЏ РїРѕРґРєР»СЋС‡РµРЅР°.');
+//say ('Про интернет к которому я подключена.');
 //$url="http://api.2ip.com.ua/provider.json";
 //  $url="http://api.2ip.ua/provider.json";
 //  $url="https://api.ipify.org?format=json";	
   $url="http://ip-api.com/json?lang=ru";
 
-//Р Р°Р±РѕС‚Р°РµРј СЃРѕ СЃС‚СЂРѕРєРѕР№ JSON
+//Работаем со строкой JSON
 $data = json_decode(file_get_contents($url), true);
 
 ///print_r($data);
-    $ip=$data["query"]; // С‡С‚Рѕ РёСЃРєР°Р»Рё
+    $ip=$data["query"]; // что искали
     $name_ripe=$data["name_ripe"]; 
     $name_rus=$data["isp"]; 
     $city=$data["city"]; 
