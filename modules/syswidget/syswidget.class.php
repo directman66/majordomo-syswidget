@@ -170,10 +170,10 @@ function admin(&$out) {
 // if ($this->tab=='' || $this->tab=='outdata') {
 //   $this->outdata_search($out);
 // }  
- if ($this->tab=='' || $this->tab=='config' || $this->tab=='widgets') {
+// if ($this->tab=='' || $this->tab=='config' || $this->tab=='widgets') {
 	 
     $this->indata_search($out); 
- }
+// }
 	
  	
 	
