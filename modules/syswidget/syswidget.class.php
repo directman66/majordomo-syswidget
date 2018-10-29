@@ -332,6 +332,9 @@ $this->cputemp();
 //function cputemp()	
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
+//sysinfo
+
+
  function cpuload() {
 
 if (substr(php_uname(),0,5)=='Linux')  {
@@ -355,29 +358,45 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
 //}
  }
 else {
-$cpu_load1 = shell_exec('wmic cpu get LoadPercentage');
- sg('syswidget.CPUload1', $cpu_load1);
+$link = shell_exec('wmic cpu get LoadPercentage');
+$cpu_load1=explode ("\r",$link)[1];
+echo $cpu_load1;
+if ($cpu_load1!=0) sg('syswidget.CPUload1', $cpu_load1);
+if ($cpu_load1!=0) sg('syswidget.CPUusage', $cpu_load1);
 }
 }
-//sysinfo
+
+
 
 function cpuusage() {
+
+if (substr(php_uname(),0,5)=='Linux')  {
+
 //CPU usage
 $cpu_usage = exec("top -bn 1 | awk '{print $9}' | tail -n +8 | awk '{s+=$1} END {print s}'");
 $cpu_usage = round($cpu_usage/4, 1);
 //if(gg('CPUusage') != $cpu_usage) {
  sg('syswidget.CPUusage', $cpu_usage);
-//}
 }
+}
+
 function memory() {	
 //Memory usage/total
+if (substr(php_uname(),0,5)=='Linux')  {
 $mem_total = exec("cat /proc/meminfo | grep MemTotal | awk '{print $2}'");
 $mem_usage = $mem_total - exec("cat /proc/meminfo | grep MemFree | awk '{print $2}'");
 $sys_memory = round($mem_usage*100/$mem_total, 1);
 if(gg('syswidget.SysMem') != $sys_memory) {
  sg('syswidget.SysMem', $sys_memory);
-}
+}} 
+else 
+{
+$link = shell_exec('wmic OS get FreePhysicalMemory /Value');
+$cpu_load1=explode ("=",$link)[1];
+echo $cpu_load1;
+if ($cpu_load1!=0) sg('syswidget.SysMem', $cpu_load1);
 
+}
 }
  
 function cputemp() {	 	
