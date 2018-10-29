@@ -471,7 +471,7 @@ sg('syswidget.lsusb', $lsusb);
 function smart() {	 
 if (substr(php_uname(),0,5)=='Linux')  {
 //System uptime
-$lsusb = shell_exec('sudo smartctl  -a /dev/sda');
+$lsusb = shell_exec('for i in /dev/sd[a-z]; do sudo smartctl -a  "$i"; done');
 sg('syswidget.smart', $lsusb);
 }else
 {
