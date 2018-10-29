@@ -421,7 +421,14 @@ sg('syswidget.lsusb', $lsusb);
 
 function psaux() {	 
 //System uptime
+
+if (substr(php_uname(),0,5)=='Linux')  {
 $lsusb = shell_exec('ps -aux');
+} else 
+{
+$lsusb = shell_exec('tasklist');
+}
+
 sg('syswidget.psaux', $lsusb);
 
  }
