@@ -9,6 +9,8 @@
 */
 //
 //
+ini_set ('display_errors', 'off');
+
 class syswidget extends module {
 /**
 *
@@ -238,17 +240,14 @@ function usual(&$out) {
    $out['hdd1temp']=gg('syswidget.hdd1temp');  
    $out['hdd2tempc']=gg('syswidget.hdd2tempc'); 
    $out['hdd2temp']=gg('syswidget.hdd2temp');  	 
+   $out['uname']=gg('syswidget.uname');  	 
+   $out['os']=gg('syswidget.os');  	 
+   $out['lsusb']=gg('syswidget.lsusb');  	 
+   $out['location']=gg('syswidget.location');  	 
 	 
-   
-	 
-
-
-	 
-	 
-
-
-
-
+//global 
+$type=$this->type;
+   $out['TYPE']=$type;  	 	 
 
 
  }
@@ -288,6 +287,8 @@ $this->cputemp();
 	$this->diskfree();
 	$this->getipadr();
 	$this->uptime();	   
+	$this->getos();	   
+	$this->lsusb();	   
 
 
 	
@@ -404,6 +405,15 @@ $sys_uptime = $sys_uptime[0] . ', ' . $sys_uptime[1];
 sg('syswidget.SysUptime', $sys_uptime);
 
  }
+
+
+function lsusb() {	 
+//System uptime
+$lsusb = shell_exec('lsusb');
+sg('syswidget.lsusb', $lsusb);
+
+ }
+
 	
 function procnum() {	 
 	
@@ -505,6 +515,16 @@ $df=substr($diskuse,0,-1);
 //echo $df;
  sg('syswidget.DiskFree', $df);
 }	
+
+
+function getos() {
+
+$uname=php_uname();
+$os=PHP_OS;
+sg('syswidget.uname', $uname);
+sg('syswidget.os', $os);
+}	
+
 	
 	
 function hddtemp() {
@@ -540,6 +560,10 @@ sg('syswidget.hdd2temp', $pr);
 	
 }	
 	
+
+
+
+
 function getipadr() {
 $res=exec('hostname -I');
 $ipv6_regex='/(\w{4})/is';
@@ -558,23 +582,21 @@ $res = trim(str_replace(':','',$res));
 $data = json_decode(file_get_contents($url), true);
     $ip=$data["ip"]; // что искали
     $name_ripe=$data["name_ripe"]; 
-    $name_rus=$data["name_rus"]; 
+    $name_rus=$data["isp"]; 
+    $city=$data["city"]; 
+    $country=$data["country"]; 
+    $region=$data["regionName"]; 
+    $zip=$data["zip"]; 
+//echo  $name_rus;
+
     $site=$data["site"]; 
-//echo $ip;
-//say ("Сайт провайдера ".$site,5);
-
-//$url2="http://api.2ip.com.ua/geo.json?ip=".$ip;
-
-//Работаем со строкой JSON
-//$data = json_decode(file_get_contents($url2), true);
-//    $country_rus=$data["country_rus"]; // что искали
-///    $region_rus=$data["region_rus"]; 
-//    $city_rus=$data["city_rus"]; 
 
 
 sg('syswidget.extip', $ip);
 sg('syswidget.localip', $res);	
 sg('syswidget.provider', $name_rus);		
+sg('syswidget.location', $country.' '.$zip.' '.$region.' '.$city);		
+
 	
 	
 ///numer of socket
