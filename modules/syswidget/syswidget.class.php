@@ -248,6 +248,7 @@ function usual(&$out) {
    $out['psaux']=nl2br(nl2br(gg('syswidget.psaux')));  	 
    $out['arp']=nl2br(nl2br(gg('syswidget.arp')));  	 
    $out['smart']=nl2br(nl2br(gg('syswidget.smart')));  	 
+   $out['hddtemp2']=nl2br(nl2br(gg('syswidget.hddtemp2')));  	 
 
 	 
 //global 
@@ -296,6 +297,7 @@ $this->cputemp();
 	$this->lsusb();	   
 	$this->psaux();	   
 	$this->arp();	   
+ 	$this->hddtemp2();		   
 
 
 	
@@ -479,6 +481,19 @@ $lsusb = shell_exec('wmic diskdrive get Partitions,DeviceId,Model,Size,Caption,S
 sg('syswidget.smart', $lsusb);
 }
 }
+
+function hddtemp2() {	 
+if (substr(php_uname(),0,5)=='Linux')  {
+//System uptime
+$lsusb = shell_exec('for i in /dev/sd[a-z]; do  sudo smartctl -A "$i" | grep -i Temperature_Celsius; done');
+sg('syswidget.hddtemp2', $lsusb);
+}
+}
+
+
+
+ 
+
 
 function psaux() {	 
 //System uptime
