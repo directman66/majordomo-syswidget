@@ -357,7 +357,7 @@ $cpu_load15 = substr($cpu_load, $pos2+1, $pos3-$pos2-1);
 else {
 $cpu_load1 = shell_exec('wmic cpu get LoadPercentage');
  sg('syswidget.CPUload1', $cpu_load1);
-
+}
 }
 //sysinfo
 
