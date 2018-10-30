@@ -191,6 +191,7 @@ $this->cpuusage();
 $this->memory() ;	
 $this->cputemp();		   
 $this->smart();		   
+$this->ttop();		   
 
 	 
 
@@ -249,6 +250,7 @@ function usual(&$out) {
    $out['arp']=nl2br(nl2br(gg('syswidget.arp')));  	 
    $out['smart']=nl2br(nl2br(gg('syswidget.smart')));  	 
    $out['hddtemp2']=nl2br(nl2br(gg('syswidget.hddtemp2')));  	 
+   $out['top']=nl2br(nl2br(gg('syswidget.top')));  	 
 
 	 
 //global 
@@ -499,15 +501,27 @@ function psaux() {
 //System uptime
 
 if (substr(php_uname(),0,5)=='Linux')  {
+//$lsusb = shell_exec('top -b -n 1 > filename');
 $lsusb = shell_exec('ps -aux');
-} else 
-{
-$lsusb = shell_exec('tasklist');
 }
-
 sg('syswidget.psaux', $lsusb);
 
  }
+
+
+
+function ttop() {	 
+//System uptime
+
+if (substr(php_uname(),0,5)=='Linux')  {
+$lsusb = shell_exec('top -b -n 1');
+sg('syswidget.top', $lsusb);
+} 
+
+
+ }
+
+
 
 function arp() {	 
 //System uptime
