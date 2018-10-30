@@ -22,13 +22,16 @@
 <!--<li [#if TAB=="" || TAB=="config" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=update_settings&id=<#ID#>&tab=config">Конфигурация</a> </li> -->
 <li [#if TAB=="" || TAB=="widgets" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=widgets">Виджеты</a> </li>	
 <li [#if TAB=="process" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=process">Процессы</a> </li>	
+<li [#if TAB=="top" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=top">top</a> </li>	
 <li [#if TAB=="arp" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=arp">arp</a> </li>	
 <li [#if TAB=="smart" #] class="active" [#endif#]><a href="?data_source=<#DATA_SOURCE#>&view_mode=&id=<#ID#>&tab=smart">s.m.a.r.t.</a> </li>	
+
 <li [#if TAB=="help" #] class="active" [#endif#]><a href="?tab=help">Help</a> </li>
 </ul>
 <!--[#if TAB="config" || TAB==""#] [#inc config.html#] [#endif#] -->
 [#if TAB=="widgets"||TAB=""#] [#inc widgets.html#] [#endif#]
 [#if TAB=="process"#] <table align="left">	[#module name="syswidget" type="3"#]  [#endif#] </table>
+[#if TAB=="top"#] <table align="left">	[#module name="syswidget" type="6"#]  [#endif#] </table>
 [#if TAB=="arp"#] <table align="left">		[#module name="syswidget" type="4"#]  [#endif#] </table>
 [#if TAB=="smart"#]<table align="left">		[#module name="syswidget" type="5"#][#endif#]</table>
 [#if TAB=="help"#] [#inc help.html#] [#endif#]
