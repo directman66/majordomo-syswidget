@@ -433,7 +433,7 @@ $cpu_temp=abs(str_replace('\'C','', substr($data,5)  ));
 }
 	 
 ///orangepi
-elseif (gg('syswidget.chip')=='Hardware	: sun8i')
+elseif (strpos(gg('syswidget.chip'), "sun8i")==true)
 {
 $cpu_temp = shell_exec('cat /sys/class/thermal/thermal_zone0/temp')/1000;	
 }
